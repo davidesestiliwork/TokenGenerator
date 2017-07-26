@@ -54,6 +54,12 @@ public class TokenGen
 
 				for(int i = 0; i < num; i++)
 				{
+					/*
+					if(i == 50)
+					{
+						throw new Exception("test transaction");
+					}
+					*/
 					UUID uuid = UUID.randomUUID();
 					System.out.println("Token: " + uuid.toString());
 					saveToDB(uuid.toString());
