@@ -30,10 +30,11 @@ public class TokenGen
 {
 	private static Connection connection = null;
 	private static final String PROP_FILE_NAME = "config.properties";
+	private static String baseDir;
 	
 	public static void main(String[] args)
 	{
-		if(args.length == 1)
+		if(args.length == 2)
 		{
 			Integer num = null;
 			try
@@ -46,6 +47,8 @@ public class TokenGen
 				return;
 			}
 
+			baseDir = args[1];
+			
 			openConnection();
 
 			try 
@@ -85,7 +88,7 @@ public class TokenGen
 		}
 		else
 		{
-			System.out.println("Usage: param 1: numer of tokens to be generated");
+			System.out.println("Usage: param 1: numer of tokens to be generated, param 2: baseDir");
 		}
 	}
 
@@ -108,11 +111,11 @@ public class TokenGen
 
 	private static void saveToDB(String uuid) throws Exception
 	{
-		String insertTokenQuery = getProperty("query.insertToken");
-		
-		PreparedStatement statement = connection.prepareStatement(insertTokenQuery);
+		String queryInsertToken = getProperty("query.insertToken");
+		PreparedStatement statement = connection.prepareStatement(queryInsertToken);
 		statement.setString(1, uuid);
 		statement.setInt(2, 0);
+		statement.setString(3, baseDir);
 		statement.executeUpdate();
 	}
 	
