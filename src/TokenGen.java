@@ -55,21 +55,33 @@ public class TokenGen
 			{
 				connection.setAutoCommit(false);
 
+				long start, elapsed, tot = 0;
+				
 				for(int i = 0; i < num; i++)
 				{
 					/*
 					if(i == 50)
 					{
-						throw new Exception("test transaction");
+						throw new Exception("test sql transaction");
 					}
 					*/
+					
+					start = System.currentTimeMillis();
+					
 					UUID uuid = UUID.randomUUID();
-					System.out.println("Token: " + uuid.toString());
+					System.out.print("Token: " + uuid.toString());
 					saveToDB(uuid.toString());
+					
+					elapsed = System.currentTimeMillis() - start;
+					tot += elapsed;
+					System.out.println(" (" + elapsed + " ms)");
 				}
 				
 				connection.commit();
-			} 
+				
+				double average = (double)tot / (double)num;
+				System.out.println("Average: " + average + " ms");
+			}
 			catch(Exception e) 
 			{
 				try 
